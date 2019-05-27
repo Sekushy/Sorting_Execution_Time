@@ -2,8 +2,21 @@
 import time
 from random import randint
 import csv
-
 import Sorting
+
+def runSortingAlgorithm(sortingColumn, sortingAlgorithmName):
+    # Create a temporary array that takes on the value of the randomized array each time so that the execution times remain constant
+    temporaryArray = randomizedArray
+
+    print('------Begin ' + sortingAlgorithmName + '------')
+    execution = 'Sorting.{}(temporaryArray)'.format((sortingAlgorithmName[0].lower() + sortingAlgorithmName[1:]).replace(' ', ''))
+
+    startExecutionTime = time.time()
+    exec(execution)
+    finalExecutionTime = float('{0:.4f}'.format(time.time() - startExecutionTime))
+
+    print('Exection time in seconds: {}'.format(finalExecutionTime))
+    sortingColumn.append(finalExecutionTime)
 
 if __name__ == '__main__':
     sizeOfArray = int(input('Please input the size of your array: '))
@@ -19,33 +32,21 @@ if __name__ == '__main__':
     mergeSortColumn = []
     insertionSortColumn = []
 
-    for i in range(3):
-        # Create a temporary array that takes on the value of the randomized array so that the execution times remain constant
-        temporaryArray = randomizedArray
+    columnNames = ['Merge Sort', 'Insertion Sort', 'Bubble Sort']
 
+    for i in range(3):
         # Merge Algorithm
-        print('------Begin merge sort------')
-        execution_time = time.time()
-        Sorting.mergeSort(temporaryArray)
-        print('Exection time in seconds: %s' % (time.time() - execution_time))
-        mergeSortColumn.append(round(time.time() - execution_time))
+        runSortingAlgorithm(mergeSortColumn, 'Merge Sort')
 
         # Insertion Algorithm
-        print('------Begin insertion sort------')
-        execution_time = time.time()
-        Sorting.insertionSort(temporaryArray)
-        print('Exection time in seconds: %s' % (time.time() - execution_time))
-        insertionSortColumn.append(time.time() - execution_time)        
+        runSortingAlgorithm(insertionSortColumn, 'Insertion Sort')
         
         # Bubble Algorithm
-        print('------Begin bubble sort------')
-        execution_time = time.time()
-        Sorting.bubbleSort(temporaryArray)
-        print('Exection time in seconds: %s\n' % (time.time() - execution_time))
-        bubbleSortColumn.append(time.time() - execution_time)
+        runSortingAlgorithm(bubbleSortColumn, 'Bubble Sort')
         
         i = i + 1
 
-with open('Execution_times.csv', 'w', newline='') as file:
-    writer = csv.writer(file, delimiter='\t')
+with open('startExecutionTimes_' + str(sizeOfArray) + '.csv', 'w', newline='') as csvfile:
+    writer = csv.writer(csvfile, delimiter=',')
+    writer.writerow(columnNames)
     writer.writerows(zip(bubbleSortColumn, mergeSortColumn, insertionSortColumn))
