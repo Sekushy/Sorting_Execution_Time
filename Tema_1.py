@@ -4,15 +4,18 @@ from random import randint
 import csv
 import Sorting
 
+def printExectionTime(sortingAlgorithmName, executionTime):
+     print('------Begin ' + sortingAlgorithmName + '------')
+     print('Exection time in seconds: {}'.format(executionTime, end='\n'))
+
 def runSortingAlgorithm(sortingAlgorithmName):
     # Create a temporary array that takes on the value of the randomized array each time so that the execution times remain constant
     temporaryArray = randomizedArray
-    print('------Begin ' + sortingAlgorithmName + '------')
-    execution = 'Sorting.{}(temporaryArray)'.format((sortingAlgorithmName[0].lower() + sortingAlgorithmName[1:]).replace(' ', ''))
+    executeSorting = 'Sorting.{}(temporaryArray)'.format((sortingAlgorithmName[0].lower() + sortingAlgorithmName[1:]).replace(' ', ''))
     startExecutionTime = time.time()
-    exec(execution)
+    exec(executeSorting)
     finalExecutionTime = float('{0:.4f}'.format(time.time() - startExecutionTime))
-    print('Exection time in seconds: {}'.format(finalExecutionTime, end='\n'))
+    printExectionTime(sortingAlgorithmName, finalExecutionTime)
     sortingColumn = '{}'.format((sortingAlgorithmName[0].lower() + sortingAlgorithmName[1:]).replace(' ', '') + 'Column.append(' + str(finalExecutionTime) + ')')
     exec(sortingColumn)
 
@@ -41,3 +44,4 @@ with open('startExecutionTimes_' + str(sizeOfArray) + '.csv', 'w', newline='') a
     writer = csv.writer(csvfile, delimiter=',')
     writer.writerow(columnNames)
     writer.writerows(zip(bubbleSortColumn, mergeSortColumn, insertionSortColumn))
+    
