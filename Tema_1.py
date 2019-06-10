@@ -3,6 +3,7 @@ import time
 from random import randint
 import csv
 import Sorting
+import GraphGenerator
 
 def printExectionTime(sortingAlgorithmName, executionTime):
      print('------Begin ' + sortingAlgorithmName + '------')
@@ -35,7 +36,7 @@ if __name__ == '__main__':
 
     columnNames = ['Bubble Sort', 'Merge Sort', 'Insertion Sort']
 
-    for i in range(9):
+    for i in range(21):
         j = i % len(columnNames)
         runSortingAlgorithm(str(columnNames[j]))
         i = i + 1
@@ -44,4 +45,6 @@ with open('startExecutionTimes_' + str(sizeOfArray) + '.csv', 'w', newline='') a
     writer = csv.writer(csvfile, delimiter=',')
     writer.writerow(columnNames)
     writer.writerows(zip(bubbleSortColumn, mergeSortColumn, insertionSortColumn))
+
+    GraphGenerator.generateGraph('startExecutionTimes_10000.csv')
     
