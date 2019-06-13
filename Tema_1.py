@@ -15,7 +15,7 @@ def runSortingAlgorithm(sortingAlgorithmName):
     executeSorting = 'Sorting.{}(temporaryArray)'.format((sortingAlgorithmName[0].lower() + sortingAlgorithmName[1:]).replace(' ', ''))
     startExecutionTime = time.time()
     exec(executeSorting)
-    finalExecutionTime = float('{0:.4f}'.format(time.time() - startExecutionTime))
+    finalExecutionTime = float('{0:.2f}'.format(time.time() - startExecutionTime))
     printExectionTime(sortingAlgorithmName, finalExecutionTime)
     sortingColumn = '{}'.format((sortingAlgorithmName[0].lower() + sortingAlgorithmName[1:]).replace(' ', '') + 'Column.append(' + str(finalExecutionTime) + ')')
     exec(sortingColumn)
@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
     columnNames = ['Bubble Sort', 'Merge Sort', 'Insertion Sort']
 
-    for i in range(21):
+    for i in range(9):
         j = i % len(columnNames)
         runSortingAlgorithm(str(columnNames[j]))
         i = i + 1
@@ -46,5 +46,5 @@ with open('startExecutionTimes_' + str(sizeOfArray) + '.csv', 'w', newline='') a
     writer.writerow(columnNames)
     writer.writerows(zip(bubbleSortColumn, mergeSortColumn, insertionSortColumn))
 
-    GraphGenerator.generateGraph('startExecutionTimes_10000.csv')
+GraphGenerator.generateGraph('startExecutionTimes_' + str(sizeOfArray) + '.csv')
     
