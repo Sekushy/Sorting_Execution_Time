@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import matplotlib.pyplot as plt
 import numpy as np
+from random import randint
 import csv
 
 def readDataFromCsv(position_y, nameOfFile):
@@ -21,6 +22,17 @@ def getColumnHeaderAt(position, nameOfFile):
         firstRow = next(csvReader)
     return firstRow[position]
 
+def getRandomLineColor():
+    randomLines = ['b', 'g', 'r', 'm', 'c', 'k', 'y']
+    return randomLines[randint(0, len(randomLines))]
+
+def generateGraphs(index, totalNumber, sortingData, nameOfFile):
+    plt.subplot(totalNumber, 1, (index + 1))
+    plt.plot(range(len(sortingData)), sortingData, getRandomLineColor() + '*-')
+    plt.title(getColumnHeaderAt(index, nameOfFile))
+    plt.xlabel('Iteration number')
+    plt.ylabel('Execution time')
+
 def generateGraph(nameOfFile):
     plt.figure()
 
@@ -28,30 +40,11 @@ def generateGraph(nameOfFile):
     mergeSortData = readDataFromCsv(1, nameOfFile)
     insertionSortData = readDataFromCsv(2, nameOfFile)
 
-    print(bubbleSortData)
-    print(type(bubbleSortData))
+    dataList = [bubbleSortData, mergeSortData, insertionSortData]
 
-    # Populate and customize sub-plot 1
-    plt.subplot(3, 1, 1)
-    plt.plot(range(len(bubbleSortData)), bubbleSortData, 'b*-')
-    plt.title(getColumnHeaderAt(0, nameOfFile))
-    plt.xlabel('Iteration number')
-    plt.ylabel('Execution time')
-
-        # Populate and customize sub-plot 1
-    plt.subplot(3, 1, 2)
-    plt.plot(range(len(bubbleSortData)), mergeSortData, 'g:+')
-    plt.title(getColumnHeaderAt(1, nameOfFile))
-    plt.xlabel('Iteration number')
-    plt.ylabel('Execution time')
-
-
-    # Populate and customize sub-plot 1
-    plt.subplot(3, 1, 3)
-    plt.plot(range(len(insertionSortData)), insertionSortData,'r*-')
-    plt.title(getColumnHeaderAt(2, nameOfFile))
-    plt.xlabel('Iteration number')
-    plt.ylabel('Execution time')
+    for i in range(len(dataList)):
+        generateGraphs(i, 3, dataList[i] , nameOfFile)
 
     plt.tight_layout()
+    plt.savefig('Plot_' + nameOfFile + '.png', dpi=600, format='png')
     plt.show()

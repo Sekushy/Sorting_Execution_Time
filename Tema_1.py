@@ -10,7 +10,7 @@ def printExectionTime(sortingAlgorithmName, executionTime):
      print('Exection time in seconds: {}'.format(executionTime, end='\n'))
 
 def runSortingAlgorithm(sortingAlgorithmName):
-    # Create a temporary array that takes on the value of the randomized array each time so that the execution times remain constant
+    # Assign a temporary array that takes on the value of the randomized array each time so that the execution times remain constant
     temporaryArray = randomizedArray
     executeSorting = 'Sorting.{}(temporaryArray)'.format((sortingAlgorithmName[0].lower() + sortingAlgorithmName[1:]).replace(' ', ''))
     startExecutionTime = time.time()
@@ -36,15 +36,17 @@ if __name__ == '__main__':
 
     columnNames = ['Bubble Sort', 'Merge Sort', 'Insertion Sort']
 
-    for i in range(9):
+    for i in range(len(columnNames) * len(columnNames)):
         j = i % len(columnNames)
         runSortingAlgorithm(str(columnNames[j]))
         i = i + 1
 
-with open('startExecutionTimes_' + str(sizeOfArray) + '.csv', 'w', newline='') as csvfile:
-    writer = csv.writer(csvfile, delimiter=',')
-    writer.writerow(columnNames)
-    writer.writerows(zip(bubbleSortColumn, mergeSortColumn, insertionSortColumn))
+    with open('startExecutionTimes_' + str(sizeOfArray) + '.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile, delimiter=',')
+        writer.writerow(columnNames)
+        writer.writerows(zip(bubbleSortColumn, mergeSortColumn, insertionSortColumn))
 
-GraphGenerator.generateGraph('startExecutionTimes_' + str(sizeOfArray) + '.csv')
+    GraphGenerator.generateGraph('startExecutionTimes_' + str(sizeOfArray) + '.csv')
+    GraphGenerator.generateGraph('startExecutionTimes_100000.csv')
+    GraphGenerator.generateGraph('startExecutionTimes_300000.csv')
     
